@@ -26,7 +26,7 @@ export default class Player {
             repeat: -1
         });
 
-        
+
 
         /*this.scene.anims.create({
             key: 'jump',
@@ -47,13 +47,13 @@ export default class Player {
         if(controller.left.isDown) {
             player.setVelocityX(-this.velocity);
             player.setFlip(false, false);
-            player.anims.play('move');
+            player.anims.play('move', true);
         }
 
         else if(controller.right.isDown) {
             player.setVelocityX(this.velocity);
             player.setFlip(true, false);
-            player.anims.play('move');
+            player.anims.play('move', true);
         }
 
         //else if(this.keys.down.isDown){
@@ -64,14 +64,14 @@ export default class Player {
         else{
             player.setVelocityX(0);
             if(player.body.touching.down) {
-                player.anims.play('idle');
+                player.anims.play('idle', true);
             }
         }
 
         if(controller.up.isDown && player.body.touching.down){
             player.setVelocityY(-this.jump);
             //player.setFlip(false, false);
-            //player.anims.play('jump');
+            //player.anims.play('jump',true);
         }
     }
 }
