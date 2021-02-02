@@ -1,11 +1,23 @@
-var config = {
+import Loading from './loading.js';
+import CenaGame from './cena_jogo.js';
+
+const config = {
+    type: Phaser.AUTO,
     width: 800,
     height: 600,
-    backgroundColor: 0x000000,
-}
+    parent: 'jogo',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 200 },
+            debug: false
+        }
+    },
+    scene: [
+        Loading,
+        CenaGame
+    ]
+};
 
-
-window.onload = function(){
-    var game = new Phaser.Game(config);
-}
+const game = new Phaser.Game(config);
 
