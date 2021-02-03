@@ -28,6 +28,8 @@ export default class CenaGame extends Phaser.Scene {
         plataform.create(0, 485, 'oceanView').setOrigin(0,0).refreshBody();
 
         this.physics.add.collider(this.player.sprite, plataform);
+        this.cameras.main.setBounds(0,0,800,600); //ajustar
+        this.cameras.main.startFollow(this.player.sprite)
 
     }
 
