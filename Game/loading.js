@@ -21,6 +21,7 @@ export default class Loading extends Phaser.Scene {
 
         this.load.image("oceanView", "images/Ocean_view.png");
         this.load.spritesheet("slime", "images/slime.png", {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet("shoot", "images/shoot.png", {frameWidth: 32, frameHeight: 32});
         //this.scene.start('cena-game');
     }
 

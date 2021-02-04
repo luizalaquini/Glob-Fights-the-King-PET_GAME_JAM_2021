@@ -1,5 +1,6 @@
 import Controller from "./controller.js";
 import Player from "./player.js";
+import Enemy from "./enemy.js";
 //import Item from "./item.js";
 
 export default class CenaGame extends Phaser.Scene {
@@ -16,9 +17,11 @@ export default class CenaGame extends Phaser.Scene {
     create() {
         this.oceanView = this.add.image(0,0,"oceanView");
         this.oceanView.setOrigin(0,0);
+
         this.player = new Player(this, 10, 40);
-        let key = new Controller(this);
-        this.keys = key.keys;
+
+        this.key = new Controller(this);
+
         this.add.text(20,20,"In Game", {
             font: "25px Arial",
             fill: "blue"
@@ -28,45 +31,22 @@ export default class CenaGame extends Phaser.Scene {
         plataform.create(0, 485, 'oceanView').setOrigin(0,0).refreshBody();
 
         this.physics.add.collider(this.player.sprite, plataform);
+
         this.cameras.main.setBounds(0,0,800,600); //ajustar
-        this.cameras.main.startFollow(this.player.sprite)
+        this.cameras.main.startFollow(this.player.sprite);
+
+        // this.enemys = this.physics.add.group({
+        //     classType: Enemy
+        // });
+        this.enemy = new Enemy(this, 600, 300);
+        this.physics.add.collider(this.enemy.sprite, plataform);
+        //this.enemys.get(this, 600, 300);
 
     }
 
     update() {
-        this.player.update(this.keys);
-        /*
-        const player = this.player.sprite;
-        
-
-        if(this.keys.left.isDown) {
-            player.setVelocityX(-this.player.velocity);
-            player.setFlip(false, false);
-            //player.anims.play('moving');
-        }
-
-        else if(this.keys.right.isDown) {
-            player.setVelocityX(this.player.velocity);
-            player.setFlip(true, false);
-            //player.anims.play('moving');
-        }
-
-        //else if(this.keys.down.isDown){
-            //player.setVelocityY(this.player.velocity);
-            //player.setFlip(false, false);
-        //}
-        
-        else{
-            player.setVelocityX(0);
-        }
-
-        if(this.keys.up.isDown && player.body.touching.down){
-            player.setVelocityY(-this.player.jump);
-            player.setFlip(false, false);
-            //player.anims.play('jump');
-        }
-
-        //if(this.keys.x.isDown && )
-        */
+        this.key.update();
+        this.player.update(this.key);
+        this.enemy.update();
     }
 }
