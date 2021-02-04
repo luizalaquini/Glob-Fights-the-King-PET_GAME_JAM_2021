@@ -1,9 +1,11 @@
 export default class Controller {
     constructor(scene) {
         this.keys = scene.input.keyboard.createCursorKeys();
+        this.spaceBar = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.left = new Key();
         this.right = new Key();
         this.up = new Key();
+
     }
 
     keyPressed(key) {
@@ -18,6 +20,7 @@ export default class Controller {
             this.left.active = false;
             this.left.down = false;
         }
+        
 
         if(this.keys.right.isDown) {
             if(!this.right.down) this.right.active = true;
@@ -33,6 +36,13 @@ export default class Controller {
         } else if(!this.keys.up.isDown) {
             this.up.active = false;
             this.up.down = false;
+        }
+        if(this.spaceBar.isDown) {
+            if(!this.spaceBar.down) this.spaceBar.active = true;
+            this.spaceBar.down = true;
+        } else if(!this.spaceBar.isDown) {
+            this.spaceBar.active = false;
+            this.spaceBar.down = false;
         }
     }
 

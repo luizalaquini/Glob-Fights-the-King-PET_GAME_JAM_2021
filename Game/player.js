@@ -1,3 +1,4 @@
+
 export default class Player {
     constructor(scene, x, y) {
         this.scene = scene;
@@ -19,11 +20,16 @@ export default class Player {
         this.sprite_file = 'slime';
         this.sprite = this.scene.physics.add.sprite(this.x_position,
              this.y_position, this.sprite_file);
+
+        this.spriteS = 'shoot';
+        this.spriteS = this.scene.physics.add.sprite(this.x_position,
+                  this.y_position, this.spriteS);
         
         //player physics
         //this.sprite.setBounce(0.2);
         this.sprite.setCollideWorldBounds(true);
-
+        this.spriteS.setCollideWorldBounds(true);
+        
         this.element = null;
 
         //animations
@@ -51,13 +57,19 @@ export default class Player {
             repeat: -1
         });*/
 
+        this.scene.anims.create({
+            key: 'shoot',
+            frames: this.scene.anims.generateFrameNumbers('shoot', { start: 24, end: 29}),
+            frameRate:20,
+            skipMissedFrames: true,
+            repeat: 1
+        });
     }
 
     /*setElement(element) {
         this.element = element;
         //mudar a sprite
     }*/
-
     update(controller) {
         let player = this.sprite;
         //keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);// input for shoot
@@ -96,6 +108,10 @@ export default class Player {
             player.setVelocityY(-this.jump);
             //player.setFlip(false, false);
             //player.anims.play('jump',true);
+        }
+
+        if(controller.spaceBar.down) { //right
+            player.anims.play("shoot", true);
         }
     }
 }
