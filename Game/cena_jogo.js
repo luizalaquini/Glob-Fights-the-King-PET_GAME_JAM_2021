@@ -27,27 +27,37 @@ export default class CenaGame extends Phaser.Scene {
             fill: "blue"
         });
 
-        const plataform = this.physics.add.staticGroup();
-        plataform.create(0, 485, 'oceanView').setOrigin(0,0).refreshBody();
+        this.plataform = this.physics.add.staticGroup();
+        this.plataform.create(0, 485, 'oceanView').setOrigin(0,0).refreshBody();
 
-        this.physics.add.collider(this.player.sprite, plataform);
-        //this.physics.add.collider(this.player.spriteS, plataform);
+        this.physics.add.collider(this.player.sprite, this.plataform);
+        
 
         this.cameras.main.setBounds(0,0,800,600); //ajustar
         this.cameras.main.startFollow(this.player.sprite);
 
-        // this.enemys = this.physics.add.group({
-        //     classType: Enemy
-        // });
-        this.enemy = new Enemy(this, 600, 300);
-        this.physics.add.collider(this.enemy.sprite, plataform);
-        //this.enemys.get(this, 600, 300);
+        this.bullets = this.physics.add.group({
+            runChildUpdate: true,
+        });
+        this.enemies_bullets = this.physics.add.group({
+            runChildUpdate: true,
+        });
+
+        this.enemies = [];
+        this.enemies.push(new Enemy(this, 600, 300));
+
 
     }
 
     update() {
+        this.physics.overlap(this.enemies_bullets, this.player.sprite, function() {
+            console.log('hit');
+        });
+
         this.key.update();
         this.player.update(this.key);
-        this.enemy.update();
+        this.enemies.forEach(function(enemy) {
+            enemy.update();
+        });
     }
 }

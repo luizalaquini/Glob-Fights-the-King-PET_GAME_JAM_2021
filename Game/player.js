@@ -1,4 +1,3 @@
-
 export default class Player {
     constructor(scene, x, y) {
         this.scene = scene;
@@ -13,22 +12,19 @@ export default class Player {
         this.y_position = y;
 
         //player facing
-        this.right = false;
+        this.right = true;
         this.left = false;
-        this.fire_rate = 2;
+        this.fire_rate = 1000;
+        this.lastFire = 0;
+        this.bullet_velocity = 300;
 
         this.sprite_file = 'slime';
         this.sprite = this.scene.physics.add.sprite(this.x_position,
              this.y_position, this.sprite_file);
-
-        this.spriteS = 'shoot';
-        this.spriteS = this.scene.physics.add.sprite(this.x_position,
-                  this.y_position, this.spriteS);
         
         //player physics
         //this.sprite.setBounce(0.2);
         this.sprite.setCollideWorldBounds(true);
-        this.spriteS.setCollideWorldBounds(true);
         
         this.element = null;
 
@@ -57,13 +53,6 @@ export default class Player {
             repeat: -1
         });*/
 
-        this.scene.anims.create({
-            key: 'shoot',
-            frames: this.scene.anims.generateFrameNumbers('shoot', { start: 24, end: 29}),
-            frameRate:20,
-            skipMissedFrames: true,
-            repeat: 1
-        });
     }
 
     /*setElement(element) {
@@ -72,7 +61,7 @@ export default class Player {
     }*/
     update(controller) {
         let player = this.sprite;
-        //keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);// input for shoot
+        let time = this.scene.time.now;
         
         //moviment handlers
         if(controller.left.down) { //left
@@ -90,11 +79,6 @@ export default class Player {
             this.left = false;
             this.right = true;
         }
-
-        //else if(this.keys.down.isDown){
-            //player.setVelocityY(this.velocity);
-            //player.setFlip(false, false);
-        //}
         
         else{ //not left, not right
             player.setVelocityX(0);
@@ -110,8 +94,29 @@ export default class Player {
             //player.anims.play('jump',true);
         }
 
-        if(controller.spaceBar.down) { //right
-            player.anims.play("shoot", true);
+        if(controller.spaceBar.down) { //fire
+
+            if(this.right) {
+                
+                if(time - this.lastFire > this.fire_rate) {
+                    this.lastFire = time;
+                    let bullet = this.scene.physics.add.image(player.x, player.y, 'shoot');
+                    this.scene.bullets.add(bullet);
+                    bullet.setFlip(false, false);
+                    bullet.setVelocityX(this.bullet_velocity);
+                    bullet.body.setAllowGravity(false);
+                }
+            }
+            else if(this.left) {
+                if(time - this.lastFire > this.fire_rate) {
+                    this.lastFire = time;
+                    let bullet = this.scene.physics.add.image(player.x, player.y, 'shoot');
+                    this.scene.bullets.add(bullet);
+                    bullet.setFlip(true, false);
+                    bullet.setVelocityX(-this.bullet_velocity);
+                    bullet.body.setAllowGravity(false);
+                }
+            }
         }
     }
 }
