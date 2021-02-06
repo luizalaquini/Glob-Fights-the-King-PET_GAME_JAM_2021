@@ -1,10 +1,12 @@
+import Shoot from './shoot.js';
+
 export default class Player {
     constructor(scene, x, y) {
         this.scene = scene;
 
         //player moviments ajust
         this.velocity = 250;
-        this.jump = 200;
+        this.jump = 400;
 
 
         //player start position
@@ -55,10 +57,16 @@ export default class Player {
 
     }
 
-    /*setElement(element) {
+    setElement(element) {
         this.element = element;
-        //mudar a sprite
-    }*/
+        if(element = 'fire') {
+            this.sprite.setTexture('shoot');
+        } else if(element = 'water') {
+            
+        } else if(element = 'water') {
+            
+        }
+    }
     update(controller) {
         let player = this.sprite;
         let time = this.scene.time.now;
@@ -105,16 +113,18 @@ export default class Player {
                     bullet.setFlip(false, false);
                     bullet.setVelocityX(this.bullet_velocity);
                     bullet.body.setAllowGravity(false);
+                    bullet.setScale(0.2,0.2);
                 }
             }
             else if(this.left) {
                 if(time - this.lastFire > this.fire_rate) {
                     this.lastFire = time;
-                    let bullet = this.scene.physics.add.image(player.x, player.y, 'shoot');
+                    let bullet = new Shoot(this.scene, player.x, player.y, 'shoot');
                     this.scene.bullets.add(bullet);
                     bullet.setFlip(true, false);
                     bullet.setVelocityX(-this.bullet_velocity);
                     bullet.body.setAllowGravity(false);
+                    bullet.setScale(0.2,0.2);
                 }
             }
         }

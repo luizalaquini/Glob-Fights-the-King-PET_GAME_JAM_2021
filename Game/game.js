@@ -1,5 +1,6 @@
 import Loading from './loading.js';
 import CenaGame from './cena_jogo.js';
+import CenaBoss from './cena_boss.js'
 
 const config = {
     type: Phaser.AUTO,
@@ -9,13 +10,14 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 },
+            gravity: { y: 600 },
             debug: true
         }
     },
     scene: [
         Loading,
-        CenaGame
+        CenaGame,
+        CenaBoss,
     ]
 };
 
