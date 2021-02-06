@@ -106,9 +106,9 @@ export default class Player {
 
             if(this.right) {
                 
-                if(time - this.lastFire > this.fire_rate) {
+                if(time - this.lastFire > this.fire_rate) {//right
                     this.lastFire = time;
-                    let bullet = this.scene.physics.add.image(player.x, player.y, 'shoot');
+                    let bullet = new Shoot(this.scene, player.x, player.y, 'shoot');
                     this.scene.bullets.add(bullet);
                     bullet.setFlip(false, false);
                     bullet.setVelocityX(this.bullet_velocity);
@@ -117,7 +117,7 @@ export default class Player {
                 }
             }
             else if(this.left) {
-                if(time - this.lastFire > this.fire_rate) {
+                if(time - this.lastFire > this.fire_rate) {//left
                     this.lastFire = time;
                     let bullet = new Shoot(this.scene, player.x, player.y, 'shoot');
                     this.scene.bullets.add(bullet);

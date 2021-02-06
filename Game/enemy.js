@@ -1,3 +1,5 @@
+import Shoot from './shoot.js';
+
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         
@@ -53,7 +55,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 if(player.x - this.x < 0) {//left
                     if(time - this.lastTime > this.fire_rate) {
                         this.lastTime = time;
-                        let bullet = this.scene.physics.add.image(this.x, this.y, 'shoot');
+                        let bullet = new Shoot(this.scene, this.x, this.y, 'shoot');
                         this.scene.enemies_bullets.add(bullet);
                         bullet.setFlip(true, false);
                         bullet.setVelocityX(-this.bullet_velocity);
@@ -63,7 +65,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 } else if(player.x - this.x > 0) {
                     if(time - this.lastTime > this.fire_rate) {//right
                         this.lastTime = time;
-                        let bullet = this.scene.physics.add.image(this.x, this.y, 'shoot');
+                        let bullet = new Shoot(this.scene, this.x, this.y, 'shoot');
                         this.scene.enemies_bullets.add(bullet);
                         bullet.setFlip(false, false);
                         bullet.setVelocityX(this.bullet_velocity);

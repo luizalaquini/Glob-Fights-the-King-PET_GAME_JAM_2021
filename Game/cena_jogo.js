@@ -3,6 +3,7 @@ import Player from "./player.js";
 import Enemy from "./enemy.js";
 import Door from "./door.js";
 import Shoot from './shoot.js';
+import Item from './item.js';
 
 export default class CenaGame extends Phaser.Scene {
     constructor() {
@@ -16,11 +17,15 @@ export default class CenaGame extends Phaser.Scene {
     }
 
     create() {
+        this.physics.world.setBounds(0,0,800,600);
+        //plano de fundo
         this.oceanView = this.add.image(0,0,"oceanView");
         this.oceanView.setOrigin(0,0);
 
+        //criar jogador
         this.player = new Player(this, 10, 40);
 
+        //criar controle
         this.key = new Controller(this);
 
         this.add.text(20,20,"In Game", {
@@ -28,12 +33,15 @@ export default class CenaGame extends Phaser.Scene {
             fill: "blue"
         });
 
+        //criar um grupo chao
         this.ground = this.physics.add.staticGroup();
         this.ground.create(0, 485, 'oceanView').setOrigin(0,0).refreshBody();
 
+        //criar um grupo plataformas
         this.platforms = this.physics.add.group();
         this.platforms.create(200, 400, 'oceanView').setOrigin(0,0).setScale(0.2,0.08).refreshBody();
 
+        //coliders
         this.physics.add.collider(this.player.sprite, this.ground);
         this.physics.add.collider(this.player.sprite, this.platforms);
         this.platforms.children.iterate(function(platform) {
@@ -44,27 +52,38 @@ export default class CenaGame extends Phaser.Scene {
             platform.body.checkCollision.down = false;
         });
         
-
-        this.cameras.main.setBounds(0,0,800,600); //ajustar
+        //configuracao camera
+        this.cameras.main.setBounds(0,0,1000,600); //ajustar
         this.cameras.main.startFollow(this.player.sprite);
 
+        //grupo de projeteis
         this.bullets = this.physics.add.group({
             classType: Shoot,
             runChildUpdate: true,
         });
         this.enemies_bullets = this.physics.add.group({
+            classType: Shoot,
             runChildUpdate: true,
         });
 
+        //grupo de inimigos
         this.enemies = this.physics.add.group({
             classType: Enemy,
             runChildUpdate: true,
         });
+        //adicionar inimigos
         this.enemies.add(new Enemy(this, 600, 300, 'slime'));
 
+        //coliders
         this.physics.add.collider(this.enemies, this.ground);
         this.physics.add.collider(this.enemies, this.platforms);
+
+        //adicionar porta
         this.door = new Door(this, 600, 400);
+
+        // this.powers = this.physics.add.group({
+        //     classType: Item,
+        // });
     }
 
     update() {
@@ -82,12 +101,24 @@ export default class CenaGame extends Phaser.Scene {
                enemy.element == 'grass' && power == 'shoot')
                 enemy.destroy();
             
+            //bullet.destroy()
+        });
+
+        this.physics.overlap([this.bullets, this.enemies_bullets], this.platforms, function(bullet) {
             bullet.destroy()
         });
+
         this.physics.overlap(this.door, this.player.sprite, function() {
             console.log('door');
             pass = true;
         });
+
+        // this.physics.overlap(this.powers, this.player.sprite, function(power, player) {
+        //     console.log('power ' );
+        //     if(this.key.keys.E.isDown)
+        //     console.log('pegou');
+        //     player.setElement(power.element);
+        // });
 
         if(hit) this.scene.start('cena-game');
         if(pass) this.passed();
