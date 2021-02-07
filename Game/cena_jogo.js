@@ -12,12 +12,12 @@ export default class CenaGame extends Phaser.Scene {
         });
     }
 
-    preload() {
-        
-    }
+    preload() {}
 
     create() {
         this.physics.world.setBounds(0,0,800,600);
+        this.game_ends = false;
+
         //plano de fundo
         this.oceanView = this.add.image(0,0,"oceanView");
         this.oceanView.setOrigin(0,0);
@@ -51,6 +51,12 @@ export default class CenaGame extends Phaser.Scene {
             platform.body.checkCollision.right = false;
             platform.body.checkCollision.down = false;
         });
+
+        //grupo de itens
+        this.itens = this.physics.add.group({
+            classType: Item,
+        });
+        this.itens = new Item(this, 220, 385, 'slime');
         
         //configuracao camera
         this.cameras.main.setBounds(0,0,1000,600); //ajustar
@@ -80,15 +86,21 @@ export default class CenaGame extends Phaser.Scene {
 
         //adicionar porta
         this.door = new Door(this, 600, 400);
-
-        // this.powers = this.physics.add.group({
-        //     classType: Item,
-        // });
     }
 
     update() {
         let hit = false;
         let pass = false;
+
+        if(this.key.restart.active) {
+            this.key.keyPressed(this.key.restart);
+            this.scene.start('cena-game');
+        }
+
+        if(this.key.pause.active) {
+            this.key.keyPressed(this.key.pause);
+            this.pause();
+        }
 
         this.physics.overlap(this.enemies_bullets, this.player.sprite, function() {
             console.log('hit');
@@ -113,12 +125,14 @@ export default class CenaGame extends Phaser.Scene {
             pass = true;
         });
 
-        // this.physics.overlap(this.powers, this.player.sprite, function(power, player) {
-        //     console.log('power ' );
-        //     if(this.key.keys.E.isDown)
-        //     console.log('pegou');
+        this.physics.overlap(this.itens, this.player.sprite, function(power, player) {
+            //console.log('power ', power.element);
+            if(power.scene.key.grab.active) {
+                console.log('pegou');
+                power.scene.key.keyPressed(power.scene.key.grab);
+            }
         //     player.setElement(power.element);
-        // });
+        });
 
         if(hit) this.scene.start('cena-game');
         if(pass) this.passed();
@@ -128,6 +142,7 @@ export default class CenaGame extends Phaser.Scene {
     }
 
     passed() {
+        this.game_ends = true;
         let phaseTime = this.time.now;
             if(localStorage.getItem('faseUm')) {
                 
@@ -142,5 +157,12 @@ export default class CenaGame extends Phaser.Scene {
                 console.log('new record ', phaseTime);
             }
         this.scene.start('cena-boss');
+    }
+
+    pause() {
+        if(this.game_ends) return;
+
+        this.scene.launch('cena-pause', {back: this.scene.key});
+        this.scene.pause();
     }
 }

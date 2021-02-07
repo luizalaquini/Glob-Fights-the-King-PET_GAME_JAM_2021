@@ -1,6 +1,7 @@
 import Loading from './loading.js';
 import CenaGame from './cena_jogo.js';
-import CenaBoss from './cena_boss.js'
+import CenaBoss from './cena_boss.js';
+import CenaPause from './cena-pause.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -18,6 +19,7 @@ const config = {
         Loading,
         CenaGame,
         CenaBoss,
+        CenaPause,
     ]
 };
 
