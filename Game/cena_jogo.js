@@ -18,6 +18,8 @@ export default class CenaGame extends Phaser.Scene {
         this.physics.world.setBounds(0,0,800,600);
         this.game_ends = false;
 
+        this.time_passed = 0;
+
         //plano de fundo
         this.oceanView = this.add.image(0,0,"oceanView");
         this.oceanView.setOrigin(0,0);
@@ -28,9 +30,9 @@ export default class CenaGame extends Phaser.Scene {
         //criar controle
         this.key = new Controller(this);
 
-        this.add.text(20,20,"In Game", {
+        this.time_text = this.add.text(20,20,"", {
             font: "25px Arial",
-            fill: "blue"
+            fill: "white"
         });
 
         //criar um grupo chao
@@ -56,7 +58,7 @@ export default class CenaGame extends Phaser.Scene {
         this.itens = this.physics.add.group({
             classType: Item,
         });
-        this.itens = new Item(this, 220, 385, 'slime');
+        this.itens = new Item(this, 220, 385, 'slime', 'grass');
         
         //configuracao camera
         this.cameras.main.setBounds(0,0,1000,600); //ajustar
@@ -78,7 +80,11 @@ export default class CenaGame extends Phaser.Scene {
             runChildUpdate: true,
         });
         //adicionar inimigos
-        this.enemies.add(new Enemy(this, 600, 300, 'slime'));
+        this.enemies.add(new Enemy(this, 600, 300, 'water'));
+
+        this.enemies.children.iterate(function(enemy) {
+            enemy.adjustSpriteBody();
+        });
 
         //coliders
         this.physics.add.collider(this.enemies, this.ground);
@@ -88,48 +94,62 @@ export default class CenaGame extends Phaser.Scene {
         this.door = new Door(this, 600, 400);
     }
 
-    update() {
+    update(time, delta) {
         let hit = false;
         let pass = false;
 
+        this.time_passed += delta;
+
+        this.time_text.text = 'Time: ' + (this.time_passed/1000.0).toFixed(3).toString();
+
+        //restart
         if(this.key.restart.active) {
             this.key.keyPressed(this.key.restart);
             this.scene.start('cena-game');
         }
 
+        //pause
         if(this.key.pause.active) {
             this.key.keyPressed(this.key.pause);
             this.pause();
         }
 
+        //player get hitted
         this.physics.overlap(this.enemies_bullets, this.player.sprite, function() {
             console.log('hit');
             hit = true;
         });
+
+        //enemies get hitted
         this.physics.overlap(this.bullets, this.enemies, function(bullet, enemy) {
             let power = bullet.texture.key;
-            if(enemy.element == 'water' && power == 'shoot' ||
-               enemy.element == 'fire' && power == 'shoot' ||
-               enemy.element == 'grass' && power == 'shoot')
+            if(enemy.element == 'water' && power == 'shoot-grass' ||
+               enemy.element == 'fire' && power == 'shoot-water' ||
+               enemy.element == 'grass' && power == 'shoot-fire')
                 enemy.destroy();
             
-            //bullet.destroy()
+            bullet.destroy()
         });
 
+        //bullets collide
         this.physics.overlap([this.bullets, this.enemies_bullets], this.platforms, function(bullet) {
             bullet.destroy()
         });
 
+        //player touch the door
         this.physics.overlap(this.door, this.player.sprite, function() {
             console.log('door');
             pass = true;
         });
 
+        //player get item
         this.physics.overlap(this.itens, this.player.sprite, function(power, player) {
             //console.log('power ', power.element);
             if(power.scene.key.grab.active) {
                 console.log('pegou');
+                console.log(power.element);
                 power.scene.key.keyPressed(power.scene.key.grab);
+                player.scene.player.setElement(power.element);
             }
         //     player.setElement(power.element);
         });
@@ -143,7 +163,7 @@ export default class CenaGame extends Phaser.Scene {
 
     passed() {
         this.game_ends = true;
-        let phaseTime = this.time.now;
+        let phaseTime = this.time_passed;
             if(localStorage.getItem('faseUm')) {
                 
                 if(parseFloat(localStorage.getItem('faseUm')) < phaseTime) {

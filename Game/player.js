@@ -22,27 +22,53 @@ export default class Player {
 
         this.sprite_file = 'slime';
         this.sprite = this.scene.physics.add.sprite(this.x_position,
-             this.y_position, this.sprite_file);
+             this.y_position, this.sprite_file, 8);
         
         //player physics
         //this.sprite.setBounce(0.2);
+        this.sprite.setBodySize(64, 40, true);
         this.sprite.setCollideWorldBounds(true);
         
         this.element = null;
+        this.sprite_element = null;
 
         //animations
+        // this.scene.anims.create({
+        //     key: 'idle',
+        //     frames: this.scene.anims.generateFrameNumbers('slime', { start: 16, end: 23}),
+        //     frameRate:20,
+        //     skipMissedFrames: true,
+        //     repeat: -1
+        // });
+
         this.scene.anims.create({
-            key: 'idle',
-            frames: this.scene.anims.generateFrameNumbers('slime', { start: 16, end: 23}),
-            frameRate:20,
+            key: 'move',
+            frames: this.scene.anims.generateFrameNumbers('slime', { start: 8, end: 10}),
+            frameRate:10,
             skipMissedFrames: true,
             repeat: -1
         });
 
         this.scene.anims.create({
-            key: 'move',
-            frames: this.scene.anims.generateFrameNumbers('slime', { start: 0, end: 7}),
-            frameRate:20,
+            key: 'move-fire',
+            frames: this.scene.anims.generateFrameNumbers('slime-fire', { start: 8, end: 10}),
+            frameRate:10,
+            skipMissedFrames: true,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'move-grass',
+            frames: this.scene.anims.generateFrameNumbers('slime-grass', { start: 8, end: 10}),
+            frameRate:10,
+            skipMissedFrames: true,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'move-water',
+            frames: this.scene.anims.generateFrameNumbers('slime-water', { start: 8, end: 10}),
+            frameRate:10,
             skipMissedFrames: true,
             repeat: -1
         });
@@ -59,13 +85,8 @@ export default class Player {
 
     setElement(element) {
         this.element = element;
-        if(element = 'fire') {
-            this.sprite.setTexture('shoot');
-        } else if(element = 'water') {
-            
-        } else if(element = 'water') {
-            
-        }
+        this.sprite.anims.stop();
+        this.sprite.setTexture('slime-' + element, 8);
     }
     update(controller) {
         let player = this.sprite;
@@ -74,25 +95,41 @@ export default class Player {
         //moviment handlers
         if(controller.left.down) { //left
             player.setVelocityX(-this.velocity);
-            player.setFlip(false, false);
-            player.anims.play('move', true);
+            player.setFlip(true, false);
+            if(this.element == 'fire') {
+                player.anims.play('move-fire', true);
+            } else if(this.element == 'grass') {
+                player.anims.play('move-grass', true);
+            } else if(this.element == 'water') {
+                player.anims.play('move-water', true);
+            }
+            else 
+                player.anims.play('move', true);
             this.left = true;
             this.right = false;
         }
 
         else if(controller.right.down) { //right
             player.setVelocityX(this.velocity);
-            player.setFlip(true, false);
-            player.anims.play('move', true);
+            player.setFlip(false, false);
+            if(this.element == 'fire') {
+                player.anims.play('move-fire', true);
+            } else if(this.element == 'grass') {
+                player.anims.play('move-grass', true);
+            } else if(this.element == 'water') {
+                player.anims.play('move-water', true);
+            }
+            else 
+                player.anims.play('move', true);
             this.left = false;
             this.right = true;
         }
         
         else{ //not left, not right
             player.setVelocityX(0);
-            if(player.body.touching.down) {
-                player.anims.play('idle', true);
-            }
+            // if(player.body.touching.down) {
+            //     player.anims.play('idle', true);
+            // }
         }
 
         if(controller.up.active && player.body.touching.down){ //up/jump
@@ -102,29 +139,31 @@ export default class Player {
             //player.anims.play('jump',true);
         }
 
-        if(controller.spaceBar.down) { //fire
+        if(controller.spaceBar.down && this.element) { //fire
 
             if(this.right) {
                 
                 if(time - this.lastFire > this.fire_rate) {//right
                     this.lastFire = time;
-                    let bullet = new Shoot(this.scene, player.x, player.y, 'shoot');
+                    let bullet = new Shoot(this.scene, player.x, player.y, 'shoot-' + this.element);
                     this.scene.bullets.add(bullet);
                     bullet.setFlip(false, false);
                     bullet.setVelocityX(this.bullet_velocity);
                     bullet.body.setAllowGravity(false);
-                    bullet.setScale(0.2,0.2);
+                    bullet.setBodySize(40,25,true);
+                    bullet.setScale(0.9,0.9);
                 }
             }
             else if(this.left) {
                 if(time - this.lastFire > this.fire_rate) {//left
                     this.lastFire = time;
-                    let bullet = new Shoot(this.scene, player.x, player.y, 'shoot');
+                    let bullet = new Shoot(this.scene, player.x, player.y, 'shoot-' + this.element);
                     this.scene.bullets.add(bullet);
                     bullet.setFlip(true, false);
                     bullet.setVelocityX(-this.bullet_velocity);
                     bullet.body.setAllowGravity(false);
-                    bullet.setScale(0.2,0.2);
+                    bullet.setBodySize(40,25,true);
+                    bullet.setScale(0.9,0.9);
                 }
             }
         }

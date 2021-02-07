@@ -6,7 +6,6 @@ export default class CenaPause extends Phaser.Scene {
     }
 
     init(data) {
-        console.log('init', data.back);
         this.back_scene = data.back;
     }
 

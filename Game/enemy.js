@@ -1,9 +1,9 @@
 import Shoot from './shoot.js';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture) {
+    constructor(scene, x, y, element) {
         
-        super(scene, x, y, texture);
+        super(scene, x, y, 'slime-' + element);
 
         scene.add.existing(this);
 
@@ -19,24 +19,24 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.lastTime = 0;
 
-        this.element = 'water';
-
-        // this.sprite_file = 'slime';
-        // this.sprite = this.scene.physics.add.sprite(this.x_position,
-        //     this.y_position, this.sprite_file);
+        this.element = element;
         
         // //animations
         this.scene.anims.create({
             key: 'idle',
-            frames: this.scene.anims.generateFrameNumbers('slime', { start: 16, end: 23}),
-            frameRate:20,
+            frames: this.scene.anims.generateFrameNumbers('slime-' + this.element, { start: 8, end: 10}),
+            frameRate:10,
             skipMissedFrames: true,
             repeat: -1
         });
 
-        //this.scene.physics.add.collider(this, this.scene.plataform);
+        this.setFlip(true, false);
 
         this.anims.play('idle', true);
+    }
+
+    adjustSpriteBody() {
+        this.setBodySize(64, 40, true);
     }
 
     update() {
@@ -45,32 +45,32 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         
         //super.update();
         let player = this.scene.player.sprite;
-        //console.log(player);
 
         if(player.x - this.x < this.x_detection &&
             player.x - this.x > -this.x_detection &&
             player.y - this.y < this.y_detection &&
             player.y - this.y > -this.y_detection) {
-                console.log("next to each other");
                 if(player.x - this.x < 0) {//left
                     if(time - this.lastTime > this.fire_rate) {
                         this.lastTime = time;
-                        let bullet = new Shoot(this.scene, this.x, this.y, 'shoot');
+                        let bullet = new Shoot(this.scene, this.x, this.y, 'shoot-' + this.element);
                         this.scene.enemies_bullets.add(bullet);
                         bullet.setFlip(true, false);
                         bullet.setVelocityX(-this.bullet_velocity);
                         bullet.body.setAllowGravity(false);
-                        bullet.setScale(0.2,0.2);
+                        bullet.setBodySize(40,25,true);
+                        bullet.setScale(0.9,0.9);
                     }
                 } else if(player.x - this.x > 0) {
                     if(time - this.lastTime > this.fire_rate) {//right
                         this.lastTime = time;
-                        let bullet = new Shoot(this.scene, this.x, this.y, 'shoot');
+                        let bullet = new Shoot(this.scene, this.x, this.y, 'shoot-' + this.element);
                         this.scene.enemies_bullets.add(bullet);
                         bullet.setFlip(false, false);
                         bullet.setVelocityX(this.bullet_velocity);
                         bullet.body.setAllowGravity(false);
-                        bullet.setScale(0.2,0.2);
+                        bullet.setBodySize(40,25,true);
+                        bullet.setScale(0.9,0.9);
                     }
                 }
                 //atirar

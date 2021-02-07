@@ -1,6 +1,8 @@
+import Shoot from './shoot.js';
+
 export default class Boss extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
-        super(scene, x, y, 'slime');
+        super(scene, x, y, 'slime-fire', 8);
 
         scene.add.existing(this);
 
@@ -12,9 +14,39 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
         this.lastForm = 0;
 
         this.fire_rate = 3000;
+        this.bullet_velocity = 300;
+        this.lastTime = 0;
 
         this.time_to_jump = 3000;
         this.time_last_jump = 0;
+
+        this.scene.anims.create({
+            key: 'move-fire',
+            frames: this.scene.anims.generateFrameNumbers('slime-fire', { start: 8, end: 10}),
+            frameRate:10,
+            skipMissedFrames: true,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'move-grass',
+            frames: this.scene.anims.generateFrameNumbers('slime-grass', { start: 8, end: 10}),
+            frameRate:10,
+            skipMissedFrames: true,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'move-water',
+            frames: this.scene.anims.generateFrameNumbers('slime-water', { start: 8, end: 10}),
+            frameRate:10,
+            skipMissedFrames: true,
+            repeat: -1
+        });
+
+        this.setFlip(true, false);
+
+        this.anims.play('move-fire', true);
     }
 
     update() {
@@ -30,7 +62,22 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
             this.time_last_jump = time;
             this.jump();
         }
-        //console.log(this.element[this.element_id]);
+
+        if(time - this.lastTime > this.fire_rate) {
+            console.log('tiroo');
+            this.lastTime = time;
+            let bullet = new Shoot(this.scene, this.x, this.y, ('shoot-' + (this.element[this.element_id])));
+            this.scene.enemies_bullets.add(bullet);
+            bullet.setFlip(true, false);
+            bullet.setVelocityX(-this.bullet_velocity);
+            bullet.body.setAllowGravity(false);
+            bullet.setBodySize(40,25,true);
+            bullet.setScale(0.9,0.9);
+        }
+    }
+
+    adjustSpriteBody() {
+        this.setBodySize(64, 40, true);
     }
 
     jump() {
@@ -42,13 +89,16 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     changeElement() {
         let random_number;
 
+        if(!this.isAlive()) return;
+
         do {
             random_number = Math.floor(Math.random() * 3);
         } while(random_number == this.element_id);
         this.element_id = random_number;
 
-        console.log(this.element[this.element_id])
-        //this.loadTexture(this.element[this.element_id]);
+        console.log(this.element[this.element_id]);
+        this.setFlip(true, false);
+        this.anims.play('move-' + this.element[this.element_id], true);
     }
 
     hit() {
