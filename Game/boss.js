@@ -64,7 +64,6 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
         }
 
         if(time - this.lastTime > this.fire_rate) {
-            console.log('tiroo');
             this.lastTime = time;
             let bullet = new Shoot(this.scene, this.x, this.y, ('shoot-' + (this.element[this.element_id])));
             this.scene.enemies_bullets.add(bullet);
@@ -96,7 +95,6 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
         } while(random_number == this.element_id);
         this.element_id = random_number;
 
-        console.log(this.element[this.element_id]);
         this.setFlip(true, false);
         this.anims.play('move-' + this.element[this.element_id], true);
     }

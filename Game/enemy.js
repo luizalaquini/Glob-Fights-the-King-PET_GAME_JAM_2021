@@ -1,7 +1,7 @@
 import Shoot from './shoot.js';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, element) {
+    constructor(scene, x, y, element, distance = 400, fire_rate = 2000, distance_y = 100) {
         
         super(scene, x, y, 'slime-' + element);
 
@@ -11,10 +11,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.life = 1;
         this.x_position = x;
         this.y_position = y;
-        this.x_detection = 400;
-        this.y_detection = 100;
+        this.x_detection = distance;
+        this.y_detection = distance_y;
 
-        this.fire_rate = 2000;
+        this.fire_rate = fire_rate;
         this.bullet_velocity = 300;
 
         this.lastTime = 0;
@@ -23,7 +23,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         
         // //animations
         this.scene.anims.create({
-            key: 'idle',
+            key: 'idle-' + this.element,
             frames: this.scene.anims.generateFrameNumbers('slime-' + this.element, { start: 8, end: 10}),
             frameRate:10,
             skipMissedFrames: true,
@@ -32,7 +32,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.setFlip(true, false);
 
-        this.anims.play('idle', true);
+        this.anims.play('idle-' + this.element, true);
     }
 
     adjustSpriteBody() {
@@ -51,6 +51,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             player.y - this.y < this.y_detection &&
             player.y - this.y > -this.y_detection) {
                 if(player.x - this.x < 0) {//left
+                    this.setFlip(true, false);
                     if(time - this.lastTime > this.fire_rate) {
                         this.lastTime = time;
                         let bullet = new Shoot(this.scene, this.x, this.y, 'shoot-' + this.element);
@@ -62,6 +63,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                         bullet.setScale(0.9,0.9);
                     }
                 } else if(player.x - this.x > 0) {
+                    this.setFlip(false, false);
                     if(time - this.lastTime > this.fire_rate) {//right
                         this.lastTime = time;
                         let bullet = new Shoot(this.scene, this.x, this.y, 'shoot-' + this.element);

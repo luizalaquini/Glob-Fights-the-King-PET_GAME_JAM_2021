@@ -1,3 +1,4 @@
+import Secret from './secret.js';
 import Shoot from './shoot.js';
 
 export default class Player {
@@ -31,6 +32,11 @@ export default class Player {
         
         this.element = null;
         this.sprite_element = null;
+
+        if(localStorage.getItem('faseBoss')) {
+            console.log('toop')
+            this.secret = new Secret(this.scene, this.sprite.x, this.sprite.y);
+        }
 
         //animations
         // this.scene.anims.create({
@@ -91,6 +97,21 @@ export default class Player {
     update(controller) {
         let player = this.sprite;
         let time = this.scene.time.now;
+
+        if(localStorage.getItem('faseBoss')) {
+            //this.secret.updatado(this.sprite.x, this.sprite.y, this.right);
+            
+
+            if(this.right == 1) {
+                this.secret.setFlip(false, false);
+                this.secret.x = this.sprite.x + 5;
+                this.secret.y = this.sprite.y - 15;
+            } else {
+                this.secret.setFlip(true, false);
+                this.secret.x = this.sprite.x - 5;
+                this.secret.y = this.sprite.y - 15;
+            }
+        }
         
         //moviment handlers
         if(controller.left.down) { //left
