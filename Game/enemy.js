@@ -61,6 +61,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                         bullet.body.setAllowGravity(false);
                         bullet.setBodySize(40,25,true);
                         bullet.setScale(0.9,0.9);
+                        this.scene.sound.play('sound-' + this.element);
                     }
                 } else if(player.x - this.x > 0) {
                     this.setFlip(false, false);
@@ -73,6 +74,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                         bullet.body.setAllowGravity(false);
                         bullet.setBodySize(40,25,true);
                         bullet.setScale(0.9,0.9);
+                        this.scene.sound.play('sound-' + this.element);
                     }
                 }
                 //atirar

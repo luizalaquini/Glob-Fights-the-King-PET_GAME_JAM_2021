@@ -15,7 +15,7 @@ export default class Loading extends Phaser.Scene {
         });
 
         this.load.on('complete', () => {
-            this.scene.start('cena-um');
+            this.scene.start('cena-boss');
         });
 
         this.load.image("oceanView", "images/Ocean_view.png");
@@ -37,6 +37,9 @@ export default class Loading extends Phaser.Scene {
         this.load.image("grass", "images/grass.png");
         this.load.image("water", "images/water.png");
         this.load.image("secret", "images/secret.png");
+        this.load.audio("sound-fire", "sounds/fire_sound.mp3");
+        this.load.audio("sound-water", "sounds/water_sound.mp3");
+        this.load.audio("sound-grass", "sounds/grass_sound.mp3");
     }
 
     create() {

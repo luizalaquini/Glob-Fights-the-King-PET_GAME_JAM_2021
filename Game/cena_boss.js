@@ -17,7 +17,7 @@ export default class CenaBoss extends Phaser.Scene {
     }
 
     create() {
-        this.physics.world.setBounds(0,0,800,600);
+        this.physics.world.setBounds(0,0,650,600);
         this.game_ends = false;
 
         this.time_passed = 0;

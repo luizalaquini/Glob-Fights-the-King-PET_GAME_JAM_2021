@@ -38,6 +38,10 @@ export default class Player {
             this.secret = new Secret(this.scene, this.sprite.x, this.sprite.y);
         }
 
+        // this.scene.fire_sound = this.scene.sound.add("sound-fire");
+        // this.scene.water_sound = this.scene.sound.add("sound-water");
+        //this.scene.fire_sound = this.scene.sound.add();
+
         //animations
         // this.scene.anims.create({
         //     key: 'idle',
@@ -98,7 +102,7 @@ export default class Player {
         let player = this.sprite;
         let time = this.scene.time.now;
 
-        if(localStorage.getItem('faseBoss')) {
+        if(localStorage.getItem('faseBoss') && this.secret) {
             //this.secret.updatado(this.sprite.x, this.sprite.y, this.right);
             
 
@@ -173,6 +177,7 @@ export default class Player {
                     bullet.body.setAllowGravity(false);
                     bullet.setBodySize(40,25,true);
                     bullet.setScale(0.9,0.9);
+                    this.scene.sound.play('sound-' + this.element);
                 }
             }
             else if(this.left) {
@@ -185,6 +190,7 @@ export default class Player {
                     bullet.body.setAllowGravity(false);
                     bullet.setBodySize(40,25,true);
                     bullet.setScale(0.9,0.9);
+                    this.scene.sound.play('sound-' + this.element);
                 }
             }
         }
