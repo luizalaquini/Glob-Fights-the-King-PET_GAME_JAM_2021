@@ -44,8 +44,8 @@ export default class CenaUm extends Phaser.Scene {
 
         //criar um grupo chao
         this.ground = this.physics.add.staticGroup();
-        this.ground.create(0, 900, 'oceanView').setOrigin(0,0).refreshBody();
-        this.ground.create(800, 900, 'oceanView').setOrigin(0,0).refreshBody();
+        this.ground.create(0, 900, 'platform').setOrigin(0,0).setScale(16,24).refreshBody();
+        this.ground.create(800, 900, 'platform').setOrigin(0,0).setScale(16,24).refreshBody();
 
         //criar um grupo plataformas
         this.platforms = this.physics.add.group();
@@ -79,8 +79,8 @@ export default class CenaUm extends Phaser.Scene {
         //     immovable: true,
         // });
         this.itens = []
-        this.itens.push(new Item(this, 1050, 750, 'fire'));
-        this.itens.push(new Item(this, 850, 400, 'grass'));
+        this.itens.push(new Item(this, 1080, 720, 'fire'));
+        this.itens.push(new Item(this, 870, 370, 'grass'));
         
         //configuracao camera
         this.cameras.main.setBounds(0,0,1600,1200); //ajustar
@@ -114,7 +114,7 @@ export default class CenaUm extends Phaser.Scene {
         this.physics.add.collider(this.enemies, this.platforms);
 
         //adicionar porta
-        this.door = new Door(this, 1400, 0);
+        this.door = new Door(this, 1400, 10);
     }
 
     update(time, delta) {

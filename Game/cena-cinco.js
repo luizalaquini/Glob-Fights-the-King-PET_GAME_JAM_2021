@@ -135,6 +135,10 @@ export default class CenaCinco extends Phaser.Scene {
 
         this.time_text.text = 'Time: ' + (this.time_passed/1000.0).toFixed(3).toString();
 
+        if(this.player.sprite.getBottomLeft().y > this.physics.world.bounds.height -50) {
+            hit = true
+        }
+
         //restart
         if(this.key.restart.active) {
             this.key.keyPressed(this.key.restart);
@@ -149,7 +153,6 @@ export default class CenaCinco extends Phaser.Scene {
 
         //player get hitted
         this.physics.overlap(this.enemies_bullets, this.player.sprite, function() {
-            console.log('hit');
             hit = true;
         });
 

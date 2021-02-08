@@ -50,7 +50,7 @@ export default class EnemyTimed extends Phaser.Physics.Arcade.Sprite {
 
         if(this.time_passed > this.fire_delay && !this.waited) {
             this.waited = true;
-            this.time_passed = 0;
+            this.time_passed = this.fire_rate+1;
         }
         if(this.waited) {
             if(player.x - this.x < 0) {//left

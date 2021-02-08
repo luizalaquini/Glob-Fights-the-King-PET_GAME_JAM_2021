@@ -29,6 +29,10 @@ export default class CenaDois extends Phaser.Scene {
         this.background.setOrigin(0,0).setFlip(false, true);
         this.background = this.add.image(800,600,"background-bottom");
         this.background.setOrigin(0,0);
+        this.background = this.add.image(1600,0,"background");
+        this.background.setOrigin(0,0).setFlip(false, true);
+        this.background = this.add.image(1600,600,"background-bottom");
+        this.background.setOrigin(0,0);
 
         //criar jogador
         this.player = new Player(this, 10, 1070);
@@ -81,7 +85,7 @@ export default class CenaDois extends Phaser.Scene {
         //     immovable: true,
         // });
         this.itens = []
-        this.itens.push(new Item(this, 710, 970, 'fire'));
+        this.itens.push(new Item(this, 730, 950, 'fire'));
         this.itens.push(new Item(this, 1200, 970, 'water'));
         this.itens.push(new Item(this, 1210, 620, 'grass'));
 
@@ -120,7 +124,7 @@ export default class CenaDois extends Phaser.Scene {
         this.physics.add.collider(this.enemies, this.platforms);
 
         //adicionar porta
-        this.door = new Door(this, 0, 380);
+        this.door = new Door(this, 50, 320);
     }
 
     update(time, delta) {
@@ -141,6 +145,10 @@ export default class CenaDois extends Phaser.Scene {
         if(this.key.pause.active) {
             this.key.keyPressed(this.key.pause);
             this.pause();
+        }
+
+        if(this.player.sprite.getBottomLeft().y > this.physics.world.bounds.height -50) {
+            hit = true
         }
 
         //player get hitted

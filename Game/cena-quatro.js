@@ -131,6 +131,10 @@ export default class CenaQuatro extends Phaser.Scene {
             this.pause();
         }
 
+        if(this.player.sprite.getBottomLeft().y > this.physics.world.bounds.height -20) {
+            hit = true
+        }
+
         //player get hitted
         this.physics.overlap(this.enemies_bullets, this.player.sprite, function() {
             console.log('hit');
