@@ -42,6 +42,18 @@ export default class CenaUm extends Phaser.Scene {
         });
         this.time_text.setScrollFactor(0);
 
+        this.menu_button = this.add.text(650,20,"Main Menu", {
+            font: "25px Arial",
+            fill: "white"
+        }).setDepth(400);
+        this.menu_button.setScrollFactor(0);
+
+        this.menu_button.setInteractive();
+        this.menu_button.on("pointerup", () => {
+            //clicked
+            this.scene.start('cena-menu');
+        });
+
         //criar um grupo chao
         this.ground = this.physics.add.staticGroup();
         this.ground.create(0, 900, 'platform').setOrigin(0,0).setScale(16,24).refreshBody();
@@ -139,7 +151,6 @@ export default class CenaUm extends Phaser.Scene {
 
         //player get hitted
         this.physics.overlap(this.enemies_bullets, this.player.sprite, function() {
-            console.log('hit');
             hit = true;
         });
 
@@ -161,20 +172,15 @@ export default class CenaUm extends Phaser.Scene {
 
         //player touch the door
         this.physics.overlap(this.door, this.player.sprite, function() {
-            console.log('door');
             pass = true;
         });
 
         //player get item
         this.physics.overlap(this.itens, this.player.sprite, function(power, player) {
-            //console.log('power ', power.element);
             if(power.scene.key.grab.active) {
-                console.log('pegou');
-                console.log(power.element);
                 power.scene.key.keyPressed(power.scene.key.grab);
                 player.scene.player.setElement(power.element);
             }
-        //     player.setElement(power.element);
         });
 
         if(hit) this.scene.start('cena-um');

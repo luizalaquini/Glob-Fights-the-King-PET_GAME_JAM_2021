@@ -40,6 +40,18 @@ export default class CenaQuatro extends Phaser.Scene {
         });
         this.time_text.setScrollFactor(0);
 
+        this.menu_button = this.add.text(650,20,"Main Menu", {
+            font: "25px Arial",
+            fill: "white"
+        }).setDepth(400);
+        this.menu_button.setScrollFactor(0);
+
+        this.menu_button.setInteractive();
+        this.menu_button.on("pointerup", () => {
+            //clicked
+            this.scene.start('cena-menu');
+        });
+
         //criar um grupo chao
         this.ground = this.physics.add.staticGroup();
         this.ground.create(0, 150, 'platform').setOrigin(0,0).setScale(10,5).refreshBody();

@@ -34,6 +34,18 @@ export default class CenaBoss extends Phaser.Scene {
             fill: "white"
         });
 
+        this.menu_button = this.add.text(650,20,"Main Menu", {
+            font: "25px Arial",
+            fill: "white"
+        }).setDepth(400);
+        this.menu_button.setScrollFactor(0);
+
+        this.menu_button.setInteractive();
+        this.menu_button.on("pointerup", () => {
+            //clicked
+            this.scene.start('cena-menu');
+        });
+
         this.ground = this.physics.add.staticGroup();
         this.ground.create(0, 545, 'oceanView').setOrigin(0,0).refreshBody();
 
@@ -167,7 +179,7 @@ export default class CenaBoss extends Phaser.Scene {
                 localStorage.setItem('faseBoss', phaseTime);
                 console.log('new record ', phaseTime);
             }
-        this.scene.start('cena-boss');
+        this.scene.start('cena-creditos');
     }
 
     pause() {
