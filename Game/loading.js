@@ -60,6 +60,7 @@ export default class Loading extends Phaser.Scene {
         this.load.image("creditos", "images/texts/creditos.png");
         this.load.image("creditos1", "images/texts/creditos1.png");
         this.load.image("creditos2", "images/texts/creditos2.png");
+        this.load.image("nome", "images/nome.png");
     }
 
     create() {

@@ -9,6 +9,9 @@ export default class CenaMenu extends Phaser.Scene {
         this.background = this.add.image(0,0,"menu-back");
         this.background.setOrigin(0,0);
 
+        this.nome = this.add.image(400,150,"nome");
+        this.nome.setOrigin(0.5,0.5).setDepth(300);
+
         this.play_buttom = this.add.text(400,400,"Jogar", {
             font: "25px Arial",
             fill: "yellow"
