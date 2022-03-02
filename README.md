@@ -9,7 +9,7 @@ https://gamejam.pet.inf.ufes.br/rules
 
 Na primeira edição da competição o tema escolhido foi "O Ambiente Muda Você" e, para nos adequarmos, criamos o personagem Glob, um slime habitante do Reino dos Slimes que nasceu com uma característica especial: ele pode controlar três elementos da natureza (água, fogo e grama) ao entrar em contato com eles ambiente afora, enquanto os outros slimes controlam apenas um. 
 
-Foi desenvolvido todo um enredo em torno desse personagem para criar o jogo de PLATAFORMA. 
+Assim, o enredo foi desenvolvido em torno desse personagem para criar um jogo modelo PLATAFORMA. 
 
 # Tecnologias Utilizadas
 - Javascript
