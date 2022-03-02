@@ -6,9 +6,8 @@ Jogue aqui: https://gamejam.pet.inf.ufes.br/gameinfo/6021edaf3d4a07001285375e
 # Sobre
 
 # Tecnologias Utilizadas
-- HTML5
-- CSS3
 - Javascript
+- HTML
 
 # Layout
 
