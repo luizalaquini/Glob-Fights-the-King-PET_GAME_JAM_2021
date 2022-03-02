@@ -25,10 +25,12 @@ Assim, o enredo foi desenvolvido em torno desse personagem para criar um jogo es
 # Autores
 Integrantes do grupo "HTML":
 
-Henrique Faria Ribeiro 
+- Henrique Faria Ribeiro 
 
-Thiago Tineli Paiva
+- Thiago Tineli Paiva
 
-Mayke Wallace Silva
+- Mayke Wallace Silva
 
-Luiza Batista Laquini
+- Luiza Batista Laquini
+
+"Tínhamos uma semana para desenvolver um jogo - coisa que nunca havíamos feito antes - e esse deveria ser necessariamente em Javascript, uma linguagem que nenhum dos integrantes do grupo sequer havia tido contato... um verdadeiro desafio. Foi emocionante a correria para aprender a linguagem, desenvolver toda a história e o jogo. A notícia de termos sido campeões nos deixou imensamente felizes! Experiência incrível!" (Luiza) 
