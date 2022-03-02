@@ -1,4 +1,10 @@
 # Glob Fights the King - PET GAMEJAM 2021
+![GitHub contributors](https://img.shields.io/github/contributors/luizalaquini/Glob-Fights-the-King-PET_GAME_JAM_2021)
+![GitHub repo size](https://img.shields.io/github/repo-size/luizalaquini/Glob-Fights-the-King-PET_GAME_JAM_2021)
+![GitHub language count](https://img.shields.io/github/languages/count/luizalaquini/Glob-Fights-the-King-PET_GAME_JAM_2021)
+![GitHub top language](https://img.shields.io/github/languages/top/luizalaquini/Glob-Fights-the-King-PET_GAME_JAM_2021)
+![GitHub followers](https://img.shields.io/github/followers/luizalaquini?label=Follow&style=social)
+
 Jogo vencedor da primeira edição do PET Game Jam UFES em 2021!
 
 Jogue aqui: https://gamejam.pet.inf.ufes.br/gameinfo/6021edaf3d4a07001285375e
