@@ -16,6 +16,11 @@ Assim, o enredo foi desenvolvido em torno desse personagem para criar um jogo es
 - HTML
 
 # Layout
+![1](https://user-images.githubusercontent.com/72242547/156290812-f7e82f43-8a24-43d8-ac2c-3c4f378a0083.png)
+
+![2](https://user-images.githubusercontent.com/72242547/156290853-099ea763-26f9-4f3b-be94-978f207e31c4.png)
+
+![3](https://user-images.githubusercontent.com/72242547/156290892-dbb7a375-5938-4da1-baf4-5eebbb21b34d.png)
 
 # Autores
 Integrantes do grupo "HTML":
