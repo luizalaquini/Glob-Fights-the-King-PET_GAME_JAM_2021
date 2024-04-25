@@ -7,7 +7,7 @@
 
 Jogo vencedor da primeira edição do PET Game Jam UFES em 2021!
 
-Jogue aqui: https://gamejam.pet.inf.ufes.br/gameinfo/6021edaf3d4a07001285375e
+[Jogue Aqui (Apenas PC!)](https://glob-fights-the-king-pet-game-jam-2021.vercel.app/)
 
 ## Sobre
 O PET Game Jam é uma competição de desenvolvimento de jogos de navegador criada pelo PET Engenharia de Computação da Ufes. As regras da competição se encontram nesse link: 
